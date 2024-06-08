@@ -133,7 +133,15 @@ const productsSlice = createSlice({
         state.cart.filter((res) => res !== res);
       }
       state.cart = [...state.cart, payload];
-      localStorage.setItem('cart', JSON.stringify(state.cart));
+    },
+    removeFromCart: (state, { payload }) => {
+      console.log(payload.payload, 'load');
+      let filteredArr = state.cart.filter((res) => res.id !== payload.payload);
+      console.log(filteredArr);
+      state.cart = filteredArr;
+    },
+    removeAllItemFromCart: (state, action) => {
+      state.cart = [];
     },
   },
   extraReducers: (builder) => {
@@ -164,5 +172,7 @@ export const {
   decrementcart,
   decrementfilter,
   incrementfilter,
+  removeFromCart,
+  removeAllItemFromCart,
 } = productsSlice.actions;
 export default productsSlice.reducer;

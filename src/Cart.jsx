@@ -6,16 +6,13 @@ import {
   decrementcart,
   increment,
   incrementcart,
+  removeFromCart,
+  removeAllItemFromCart,
 } from './redux/slice/products';
 function Cart() {
   const dispatch = useDispatch();
   const state = useSelector((state) => state.product);
-  const [prist, setPrist] = useState(null);
-  useEffect(() => {
-    const cart = localStorage.getItem('cart');
-    // cart !== null && dispatch(addToCart(JSON.parse(cart)));
-    // console.log(cart, '===>>', state.ca);
-  }, []);
+
   return (
     <>
       <div style={{ width: '100%' }}>
@@ -24,6 +21,18 @@ function Cart() {
           Total price:
           {state.cart.map((res) => Math.floor(res.qty * res.price + 0))}
         </h3>
+        <button
+          style={{
+            textAlign: 'center',
+            padding: 10,
+            backgroundColor: 'lightgreen',
+            width: 200,
+            border: 'none',
+          }}
+          onClick={() => dispatch(removeAllItemFromCart())}
+        >
+          remove all items from cart
+        </button>
       </div>
       <div
         style={{
@@ -63,7 +72,7 @@ function Cart() {
                     style={{ width: 150, height: 130 }}
                   />
                   <p>
-                    {res?.title.length > 30
+                    {res?.title?.length > 30
                       ? res?.title.slice(0, 30) + '...'
                       : res?.title}
                   </p>
@@ -99,18 +108,20 @@ function Cart() {
                     </p>
                   </div>
 
-                  {/* <button
-                  onClick={() => dispatch(addToCart(res))}
-                  style={{
-                    width: '100%',
-                    color: '#FFF',
-                    backgroundColor: 'lightblue',
-                    border: 'none',
-                    padding: 10,
-                  }}
-                >
-                  Add to card
-                </button> */}
+                  <button
+                    onClick={() =>
+                      dispatch(removeFromCart({ payload: res.id }))
+                    }
+                    style={{
+                      width: '100%',
+                      color: '#FFF',
+                      backgroundColor: 'lightblue',
+                      border: 'none',
+                      padding: 10,
+                    }}
+                  >
+                    Remove from card
+                  </button>
                 </div>
               </div>
             );
